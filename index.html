@@ -149,8 +149,9 @@ button { font: inherit; color: inherit; }
 .cover { position: absolute; inset: 0; border-radius: inherit; color: #fbe7b8; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
   background: radial-gradient(90% 70% at 35% 25%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 60%), repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.03) 0 3px, rgba(0, 0, 0, 0) 3px 7px), #1f5e34; }
 .cover::before { content: ""; position: absolute; inset: calc(var(--u) * 4.5); border: calc(var(--u) * 0.6) solid rgba(233, 196, 106, 0.85); border-radius: calc(var(--u) * 3); box-shadow: inset 0 0 0 calc(var(--u) * 1.2) rgba(31, 94, 52, 1), inset 0 0 0 calc(var(--u) * 1.5) rgba(233, 196, 106, 0.6); }
-.cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255, 255, 255, 0) 30%, rgba(255, 240, 200, 0.22) 45%, rgba(255, 255, 255, 0) 60%); background-size: 260% 100%; animation: sheen 6s ease-in-out infinite; }
-@keyframes sheen { 0%, 35% { background-position: 120% 0; } 75%, 100% { background-position: -40% 0; } }
+.cover::after { content: ""; position: absolute; top: 0; bottom: 0; left: -160%; width: 260%; pointer-events: none; animation: sheen 6s ease-in-out infinite;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0) 42%, rgba(255, 240, 200, 0.22) 50%, rgba(255, 255, 255, 0) 58%); }
+@keyframes sheen { 0%, 35% { transform: translateX(0); } 75%, 100% { transform: translateX(62%); } }   /* moved, not repainted */
 .cover .cv-script { font-family: var(--script); font-size: calc(var(--u) * 11); line-height: 1.5; color: #ffe8b0; text-shadow: 0 2px 0 rgba(0, 0, 0, 0.18); }
 .cover .cv-title { font-size: calc(var(--u) * 5); letter-spacing: 0.4em; margin-top: calc(var(--u) * 2); font-weight: 500; }
 .cover .cv-sub { font-size: calc(var(--u) * 2.8); letter-spacing: 0.3em; opacity: 0.8; margin-top: calc(var(--u) * 3); }
@@ -182,6 +183,7 @@ button { font: inherit; color: inherit; }
 #pager { display: flex; align-items: center; gap: 14px; }
 #pager .jelly { width: 44px; height: 44px; padding: 0; font-size: 20px; }
 #pager .jelly[disabled] { opacity: 0.4; pointer-events: none; }
+#pager .jelly.skip, #menu.single #pager .jelly.skip { width: auto; padding: 0 16px; font-size: 14px; margin-left: 6px; }
 #pageno { min-width: 70px; text-align: center; font-size: 14px; color: var(--ink-soft); letter-spacing: 0.08em; }
 
 /* ---------- the big view of one cake ---------- */
@@ -211,7 +213,9 @@ button { font: inherit; color: inherit; }
 #toast.on { opacity: 1; transform: translate(-50%, 0); }
 
 /* phones: one page at a time, one cake per page */
-#menu.single #pager { display: none; }
+#menu.single #pager { gap: 10px; }
+#menu.single #pager .jelly { width: 40px; height: 40px; }
+#menu.single #pageno { min-width: 56px; font-size: 13px; }
 #menu.single .face, #menu.single .face.back { border-radius: 14px; }
 #menu.single .page { padding: calc(var(--u) * 6) calc(var(--u) * 6) calc(var(--u) * 4); }
 #menu.single .card, #menu.single .card.r { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 3); margin-top: calc(var(--u) * 4); }
@@ -403,6 +407,7 @@ html.covered #scene, html.covered #veil, html.covered #sky { visibility: hidden;
     <button class="jelly cream" id="prev" aria-label="Previous page">‹</button>
     <span id="pageno"></span>
     <button class="jelly cream" id="next" aria-label="Next page">›</button>
+    <button class="jelly cream skip" id="skip">活动与团队 ↓</button>
   </div>
 </section>
 
@@ -757,8 +762,8 @@ function plate(g, cx, cy, rx, ry) {
   ell(g, cx, cy - 4, rx * 0.72, ry * 0.68); g.strokeStyle = "rgba(74,51,38,0.22)"; g.lineWidth = 3; g.stroke(); g.strokeStyle = INK;
 }
 
-function drawArt(it) {
-  const c = document.createElement("canvas"); c.width = c.height = ART;
+function drawArt(it, c = document.createElement("canvas")) {
+  c.width = c.height = ART;
   const g = c.getContext("2d"), L = it.look, R = seeded(9173 + it.i * 131);
   g.lineJoin = "round";
   backdrop(g, it);
@@ -844,6 +849,9 @@ function drawArt(it) {
 /* sample pictures are encoded off the main thread where the browser can, one at a time:
    book order first, then the gallery and the team (sooner when the reader gets close to them) */
 const art = [], jobs = [], hurry = new Set();
+/* one canvas kept in ordinary memory for all of them: dozens of separate canvases next to the 3D shop can run a phone out of graphics memory */
+const easel = document.createElement("canvas"); easel.getContext("2d", { willReadFrequently: true });
+const later = fn => ("requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 1200 }) : setTimeout(fn, 50));
 const photoOf = it => it.photo || art[it.i] || (art[it.i] = drawArt(it).toDataURL("image/jpeg", 0.86));
 function paintPhotos(it) {
   const src = it.photo || art[it.i]; if (!src) return;
@@ -854,13 +862,13 @@ function paintPhotos(it) {
   });
 }
 const wakePhotos = el => el.querySelectorAll("img[data-src]").forEach(im => { im.src = im.dataset.src; im.removeAttribute("data-src"); });
-ITEMS.forEach(it => jobs.push({ grp: "menu", has: () => !!(it.photo || art[it.i]), draw: () => drawArt(it), store: u => { if (!art[it.i]) art[it.i] = u; }, paint: () => paintPhotos(it) }));
+ITEMS.forEach(it => jobs.push({ grp: "menu", has: () => !!(it.photo || art[it.i]), draw: c => drawArt(it, c), store: u => { if (!art[it.i]) art[it.i] = u; }, paint: () => paintPhotos(it) }));
 function pump() {
   const jb = jobs.find(x => !x.done && hurry.has(x.grp)) || jobs.find(x => !x.done); if (!jb) return;
   jb.done = true;
-  const done = () => { jb.paint(); setTimeout(pump, 16); };
+  const done = () => { jb.paint(); later(pump); };
   if (jb.has()) return done();
-  const c = jb.draw();
+  const c = jb.draw(easel);
   if (c.toBlob) c.toBlob(b => { jb.store(b ? URL.createObjectURL(b) : c.toDataURL("image/jpeg", 0.86)); done(); }, "image/jpeg", 0.86);
   else { jb.store(c.toDataURL("image/jpeg", 0.86)); done(); }
 }
@@ -944,9 +952,9 @@ function layout() {
   const wantSingle = vw <= 760;
   menu.classList.toggle("single", wantSingle);
   if (wantSingle !== single || !leaves.length) { single = wantSingle; buildBook(); }
-  flipLen = single ? 0.55 : 0.75;
+  flipLen = single ? 0.36 : 0.75;   // phones: a short swipe turns a page, so the whole book is not a long climb
   const cs = getComputedStyle(menu);
-  const rows = chips.offsetHeight + subchips.offsetHeight + (single ? 0 : pager.offsetHeight) + parseFloat(cs.rowGap || 12) * (single ? 2 : 3);
+  const rows = chips.offsetHeight + subchips.offsetHeight + pager.offsetHeight + parseFloat(cs.rowGap || 12) * 3;
   const availH = vh - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - rows - 24;
   const availW = vw - 24;
   let ph;
@@ -990,6 +998,7 @@ chips.addEventListener("click", e => { const b = e.target.closest("[data-go]"); 
 subchips.addEventListener("click", e => { const b = e.target.closest("[data-grp]"); if (b) goGrp(b.dataset.grp); });
 $("#prev").addEventListener("click", () => turn(-1));
 $("#next").addEventListener("click", () => (targetN() >= nMax ? goSec("gallery") : turn(1)));   // past the back cover: on to the events page
+$("#skip").addEventListener("click", () => goSec("gallery"));
 
 book.addEventListener("click", e => {
   const card = e.target.closest(".card"); if (card) { openLB(+card.dataset.i); return; }
@@ -1351,8 +1360,8 @@ function boothScene(g, it, R) {
   for (let k = 1; k < 9; k++) { const u = k / 9, x = 112 + u * 416, y = 250 + 120 * u * (1 - u); const gl = g.createRadialGradient(x, y + 8, 1, x, y + 8, 22); gl.addColorStop(0, "rgba(255,226,140,0.95)"); gl.addColorStop(1, "rgba(255,226,140,0)"); g.fillStyle = gl; g.fillRect(x - 22, y - 14, 44, 44); ell(g, x, y + 8, 6, 8); g.fillStyle = "#ffe08a"; g.fill(); g.lineWidth = 2.5; g.stroke(); }
   scenery(g, it, R, "front");
 }
-function drawScene(it) {
-  const c = document.createElement("canvas"); c.width = GW; c.height = GH;
+function drawScene(it, c = document.createElement("canvas")) {
+  c.width = GW; c.height = GH;
   const g = c.getContext("2d"), L = it.look, R = seeded(5531 + it.k * 977);
   g.lineJoin = "round"; g.lineCap = "round";
   g.fillStyle = L[0]; g.fillRect(0, 0, GW, GH);
@@ -1398,7 +1407,7 @@ function paintGal(g) {
   const src = g.photo || gArt[g.k]; if (!src) return;
   gGrid.querySelectorAll(`img[data-g="${g.k}"]`).forEach(im => { if (im.getAttribute("src") !== src) im.src = src; });
 }
-GALLERY.forEach(g => jobs.push({ grp: "gal", has: () => !!(g.photo || gArt[g.k]), draw: () => drawScene(g), store: u => { if (!gArt[g.k]) gArt[g.k] = u; }, paint: () => paintGal(g) }));
+GALLERY.forEach(g => jobs.push({ grp: "gal", has: () => !!(g.photo || gArt[g.k]), draw: c => drawScene(g, c), store: u => { if (!gArt[g.k]) gArt[g.k] = u; }, paint: () => paintGal(g) }));
 if ("IntersectionObserver" in window && !reduce) {
   const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.remove("pre"); io.unobserve(en.target); } }), { rootMargin: "0px 0px -6% 0px" });
   gGrid.querySelectorAll(".g-item").forEach(el => io.observe(el));
@@ -1421,8 +1430,8 @@ function layBunting() {
 const TS = Object.assign({ cardWidth: 280, cardHeight: 412, radius: 22, gap: 76, card: "#fffdf8", ink: "#3b2a22", accent: "#1f5e34", border: "rgba(59,42,34,0.08)", shadow: "0 18px 40px rgba(120,70,30,0.22)", wire: "#9b8572", sag: 28, holo: 0.2, font: "" }, TEAM_STYLE);
 const tArt = [];
 const PIN = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>`;
-function drawPortrait(m, i) {
-  const W = 520, Hh = 460, c = document.createElement("canvas"); c.width = W; c.height = Hh;   // about the shape of the badge's photo window
+function drawPortrait(m, i, c = document.createElement("canvas")) {
+  const W = 520, Hh = 460; c.width = W; c.height = Hh;   // about the shape of the badge's photo window
   const g = c.getContext("2d"), t = m.tint || ["#d7efe3", "#9fd1bb"], cx = 240, SKIN = "#f7d5bd", HAIR = "#3a2a24";
   g.lineJoin = "round"; g.lineCap = "round";
   const bg = g.createLinearGradient(0, 0, W, Hh); bg.addColorStop(0, t[0]); bg.addColorStop(1, t[1]); g.fillStyle = bg; g.fillRect(0, 0, W, Hh);
@@ -1510,7 +1519,7 @@ function paintPortrait(i) {
   const m = TEAM[i], src = m.photo || tArt[i]; if (!src) return;
   const im = track.querySelector(`img[data-t="${i}"]`); if (im && im.getAttribute("src") !== src) im.src = src;
 }
-TEAM.forEach((m, i) => jobs.push({ grp: "team", has: () => !!(m.photo || tArt[i]), draw: () => drawPortrait(m, i), store: u => { if (!tArt[i]) tArt[i] = u; }, paint: () => paintPortrait(i) }));
+TEAM.forEach((m, i) => jobs.push({ grp: "team", has: () => !!(m.photo || tArt[i]), draw: c => drawPortrait(m, i, c), store: u => { if (!tArt[i]) tArt[i] = u; }, paint: () => paintPortrait(i) }));
 
 let narrow = false, padX = 0;
 function teamLayout() {
@@ -1630,7 +1639,7 @@ addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(onResize,
 addEventListener("orientationchange", () => setTimeout(onResize, 300));
 layout(); sectionsLayout();
 requestAnimationFrame(frame);
-const startArt = () => setTimeout(pump, 250);
+const startArt = () => setTimeout(() => later(pump), 250);
 if (document.readyState === "complete") startArt(); else addEventListener("load", startArt);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); sectionsLayout(); });
 })();
@@ -1650,7 +1659,7 @@ const lin = h => new THREE.Color(h).convertSRGBToLinear();
 
 const canvas = document.getElementById("scene");
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(isSmall ? 1.75 : 2, devicePixelRatio || 1));
+renderer.setPixelRatio(Math.min(isSmall ? 1.5 : 2, devicePixelRatio || 1));
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -3276,7 +3285,7 @@ const JR = window.chuJourney || { j: 0, js: 0, reveal: 0, lb: false };
 
 /* ---------- the overview: the whole corner, framed under the brand name ---------- */
 const home = { th: 0.6, ph: 1.03, r: 40, fov: 30, tx: -0.9, ty: 2.4, tz: -0.4 };
-let headerPx = 0, portrait = 0, age = 0;
+let headerPx = 0, portrait = 0, age = 0, redraw = 2;   // redraw: frames still to draw while the shop rests behind the book
 function fitDistance() {
   const v = THREE.MathUtils.degToRad(camera.fov) / 2, hh = Math.atan(Math.tan(v) * camera.aspect);
   return Math.max(10.6 / Math.tan(v), 13.4 / Math.tan(hh));
@@ -3291,6 +3300,7 @@ function resize() {
   headerPx = b ? b.getBoundingClientRect().height : 0;
   home.r = fitDistance() * (0.93 + 0.6 * headerPx / h) * (1 - 0.16 * portrait);
   home.ph = camera.aspect < 0.85 ? 0.9 : 1.03;
+  redraw = 2;
 }
 resize();
 addEventListener("resize", resize);
@@ -3379,13 +3389,16 @@ if (document.fonts && document.fonts.load) {
 
 /* ---------- motion ---------- */
 const timer = new THREE.Clock();
-let T = 0, gust = 0, gustAge = -1, gustNext = 5, skip = false;
+let T = 0, gust = 0, gustAge = -1, gustNext = 5, rest = 0;
 const calm = reduceMotion ? 0.3 : 1;
 const vpos = valanceGeo.attributes.position, dpos = dustGeo.attributes.position;
 function tick() {
   const dt = Math.min(0.05, timer.getDelta()); T += dt; age += dt;
-  if (JR.lb || JR.covered) return;                                   // the big photo view, or the pages after the book, cover everything
-  if (JR.reveal >= 0.999 && Math.abs(JR.j - JR.js) < 1e-3) { skip = !skip; if (skip) return; }   // half rate behind the menu book
+  if (JR.lb || JR.covered) { redraw = 2; return; }                   // the big photo view, or the pages after the book, cover everything
+  // once the menu book is fully open the shop behind it is a still backdrop: draw a few settling frames, then rest.
+  // Phones need the time for turning pages.
+  if (JR.reveal >= 0.999) { if (rest > 12 && redraw <= 0) return; rest++; } else rest = 0;
+  if (redraw > 0) redraw--;
 
   // breeze: a slow swell plus an occasional gust
   gustNext -= dt;
