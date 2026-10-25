@@ -105,6 +105,10 @@ button { font: inherit; color: inherit; }
   box-shadow: inset 0 0 0 1px rgba(160, 120, 70, 0.18), 0 10px 30px rgba(120, 70, 30, 0.16); }
 .face.back { transform: rotateY(180deg); border-radius: 14px 4px 4px 14px;
   background: linear-gradient(270deg, rgba(140, 90, 40, 0.16), rgba(140, 90, 40, 0) 7%), repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0 27px, rgba(200, 160, 110, 0.07) 27px 28px), var(--paper); }
+.leaf.flat { transform-style: flat; -webkit-transform-style: flat; }   /* a page lying still is a plain picture; only the page being turned is 3D (saves phones' graphics memory) */
+.leaf.flat .face { transform: none; backface-visibility: visible; -webkit-backface-visibility: visible; }
+.leaf.flat.up .face.back, .leaf.flat.down .face.front { visibility: hidden; }
+.leaf.flat.down .face.back { transform: scaleX(-1); }
 .face .shade { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(90deg, rgba(80, 45, 20, 0.35), rgba(80, 45, 20, 0.05)); }
 .face.back .shade { background: linear-gradient(270deg, rgba(80, 45, 20, 0.35), rgba(80, 45, 20, 0.05)); }
 .page { position: absolute; inset: 0; padding: calc(var(--u) * 7) calc(var(--u) * 7) calc(var(--u) * 5) calc(var(--u) * 8); display: flex; flex-direction: column; box-sizing: border-box; }
@@ -149,14 +153,16 @@ button { font: inherit; color: inherit; }
 .cover { position: absolute; inset: 0; border-radius: inherit; color: #fbe7b8; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
   background: radial-gradient(90% 70% at 35% 25%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 60%), repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.03) 0 3px, rgba(0, 0, 0, 0) 3px 7px), #1f5e34; }
 .cover::before { content: ""; position: absolute; inset: calc(var(--u) * 4.5); border: calc(var(--u) * 0.6) solid rgba(233, 196, 106, 0.85); border-radius: calc(var(--u) * 3); box-shadow: inset 0 0 0 calc(var(--u) * 1.2) rgba(31, 94, 52, 1), inset 0 0 0 calc(var(--u) * 1.5) rgba(233, 196, 106, 0.6); }
-.cover::after { content: ""; position: absolute; top: 0; bottom: 0; left: -160%; width: 260%; pointer-events: none; animation: sheen 6s ease-in-out infinite;
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0) 42%, rgba(255, 240, 200, 0.22) 50%, rgba(255, 255, 255, 0) 58%); }
-@keyframes sheen { 0%, 35% { transform: translateX(0); } 75%, 100% { transform: translateX(62%); } }   /* moved, not repainted */
+.cover::after { content: ""; position: absolute; top: 0; bottom: 0; left: -100%; width: 140%; pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0) 37.5%, rgba(255, 240, 200, 0.22) 50%, rgba(255, 255, 255, 0) 62.5%); }
+#menu.cv-on .cover::after { animation: sheen 6s ease-in-out infinite; }   /* only while a cover is on screen */
+@keyframes sheen { 0%, 35% { transform: translateX(0); } 75%, 100% { transform: translateX(115%); } }   /* moved, not repainted */
 .cover .cv-script { font-family: var(--script); font-size: calc(var(--u) * 11); line-height: 1.5; color: #ffe8b0; text-shadow: 0 2px 0 rgba(0, 0, 0, 0.18); }
 .cover .cv-title { font-size: calc(var(--u) * 5); letter-spacing: 0.4em; margin-top: calc(var(--u) * 2); font-weight: 500; }
 .cover .cv-sub { font-size: calc(var(--u) * 2.8); letter-spacing: 0.3em; opacity: 0.8; margin-top: calc(var(--u) * 3); }
 .cover svg { width: calc(var(--u) * 34); height: auto; margin-bottom: calc(var(--u) * 3); }
-.cover .cv-hint { position: absolute; bottom: calc(var(--u) * 9); font-size: calc(var(--u) * 2.8); letter-spacing: 0.12em; opacity: 0.85; animation: breathe 2.4s ease-in-out infinite; }
+.cover .cv-hint { position: absolute; bottom: calc(var(--u) * 9); font-size: calc(var(--u) * 2.8); letter-spacing: 0.12em; opacity: 0.85; }
+#menu.cv-on .cover .cv-hint { animation: breathe 2.4s ease-in-out infinite; }
 @keyframes breathe { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.95; } }
 .welcome { font-size: calc(var(--u) * 3.5); line-height: 1.6; text-align: center; margin: calc(var(--u) * 4) 0 calc(var(--u) * 3); color: var(--ink); }
 .welcome b { color: var(--green); }
@@ -216,7 +222,7 @@ button { font: inherit; color: inherit; }
 #menu.single #pager { gap: 10px; }
 #menu.single #pager .jelly { width: 40px; height: 40px; }
 #menu.single #pageno { min-width: 56px; font-size: 13px; }
-#menu.single .face, #menu.single .face.back { border-radius: 14px; }
+#menu.single .face, #menu.single .face.back { border-radius: 14px; box-shadow: inset 0 0 0 1px rgba(160, 120, 70, 0.18), 0 4px 12px rgba(120, 70, 30, 0.14); }
 #menu.single .page { padding: calc(var(--u) * 6) calc(var(--u) * 6) calc(var(--u) * 4); }
 #menu.single .card, #menu.single .card.r { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 3); margin-top: calc(var(--u) * 4); }
 #menu.single .photo { flex: 1 1 0; min-height: 0; width: 100%; height: auto; display: flex; align-items: center; justify-content: center; order: 0; container-type: size; }
@@ -247,11 +253,11 @@ button { font: inherit; color: inherit; }
   .chip small { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #hint i, .cover::after, .cover .cv-hint { animation: none; }
+  #hint i, #menu.cv-on .cover::after, #menu.cv-on .cover .cv-hint { animation: none; }
   .jelly, .chip, .frame, .lb-card { transition-duration: 0.01s; }
 }
 /* ---------- the pages after the book: they scroll up over the shop like a new sheet ---------- */
-html.covered #scene, html.covered #veil, html.covered #sky { visibility: hidden; }
+html.covered #scene, html.covered #veil, html.covered #sky { display: none; }   /* let their graphics memory go while the pages below cover them */
 .toc .t-sec { background: rgba(163, 211, 191, 0.2); box-shadow: inset 0 0 0 1px rgba(47, 122, 85, 0.22); }
 .cover .cv-more { z-index: 1; border: 0; background: none; color: #fbe7b8; cursor: pointer; padding: calc(var(--u) * 1) calc(var(--u) * 2.4); }
 .sec { position: relative; z-index: 5; }
@@ -272,7 +278,8 @@ html.covered #scene, html.covered #veil, html.covered #sky { visibility: hidden;
 .bunting { position: relative; height: 84px; margin: 10px 4vw 0; }
 .b-line { position: absolute; left: 0; top: 0; overflow: visible; }
 .b-line path { fill: none; stroke: #9b8572; stroke-width: 2; }
-.flag { position: absolute; width: 26px; height: 34px; transform-origin: 50% 0; animation: flutter 3.2s ease-in-out infinite; filter: drop-shadow(0 2px 0 rgba(59, 42, 34, 0.14)); }
+.flag { position: absolute; width: 26px; height: 34px; transform-origin: 50% 0; filter: drop-shadow(0 2px 0 rgba(59, 42, 34, 0.14)); }
+.bunting.live .flag { animation: flutter 3.2s ease-in-out infinite; }   /* only while the bunting is on screen */
 .flag i { position: absolute; inset: 0; background: var(--fc); clip-path: polygon(0 0, 100% 0, 50% 100%); }
 @keyframes flutter { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(6deg); } }
 .g-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 22px 16px 30px; }
@@ -379,7 +386,7 @@ html.covered #scene, html.covered #veil, html.covered #sky { visibility: hidden;
   #team { padding-top: 66px; min-height: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flag { animation: none; }
+  .bunting.live .flag { animation: none; }
   .g-item { transition-duration: 0.01s; transition-delay: 0s; }
 }
 </style>
@@ -953,6 +960,7 @@ function layout() {
   menu.classList.toggle("single", wantSingle);
   if (wantSingle !== single || !leaves.length) { single = wantSingle; buildBook(); }
   flipLen = single ? 0.36 : 0.75;   // phones: a short swipe turns a page, so the whole book is not a long climb
+  const away = menu.style.display === "none"; if (away) menu.style.display = "";
   const cs = getComputedStyle(menu);
   const rows = chips.offsetHeight + subchips.offsetHeight + pager.offsetHeight + parseFloat(cs.rowGap || 12) * 3;
   const availH = vh - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - rows - 24;
@@ -968,6 +976,7 @@ function layout() {
   menu.style.setProperty("--u", (pw / 100).toFixed(3) + "px");
   const fs = parseFloat(getComputedStyle(brandName).fontSize) || 60;
   brandTarget = Math.min(1, (single ? 30 : 40) / fs);
+  if (away) menu.style.display = "none";
   space.style.height = Math.ceil((JOURNEY_END + nMax * flipLen + 1.12) * J.H) + "px";   // J.H, not innerHeight: a phone's toolbar must not move the pages below
   lastS = -1; lastHead = -1;
 }
@@ -1127,7 +1136,7 @@ lbShare.addEventListener("click", () => {
 });
 
 /* ================= every frame: header, hint, book ================= */
-let last = performance.now(), lastS = -1, lastHead = -1, lastReveal = -1, lastShow = null, galleryTop = 1e9;
+let last = performance.now(), lastS = -1, lastHead = -1, lastReveal = -1, lastShow = null, lastCv = false, galleryTop = 1e9;
 function frame(now) {
   const dt = Math.min(0.1, (now - last) / 1000); last = now;
   if (!J.lb) J.j = scrollY / H();
@@ -1145,7 +1154,8 @@ function frame(now) {
     brand.style.setProperty("--bs", (1 + (brandTarget - 1) * t).toFixed(4));
     brand.style.setProperty("--pill", t.toFixed(3));
     brand.style.setProperty("--subo", (1 - t).toFixed(3));
-    hint.style.opacity = (1 - smooth(0.1, 0.45, js)).toFixed(3);
+    const ho = 1 - smooth(0.1, 0.45, js);
+    hint.style.opacity = ho.toFixed(3); hint.style.display = ho < 0.005 ? "none" : "";   // gone, not just clear: its bouncing arrow stops too
   }
 
   const rv = J.reveal = smooth(4.15, 4.85, js);
@@ -1155,7 +1165,7 @@ function frame(now) {
     menu.classList.toggle("live", rv > 0.6);
   }
   const show = rv > 0.001 && !J.covered;
-  if (show !== lastShow) { lastShow = show; menu.style.visibility = show ? "visible" : "hidden"; html.classList.toggle("covered", J.covered); }
+  if (show !== lastShow) { lastShow = show; menu.style.display = show ? "" : "none"; menu.style.visibility = show ? "visible" : "hidden"; html.classList.toggle("covered", J.covered); }   // none, not hidden: the book's layers are let go
   if (show) {
     const s = clamp((js - JOURNEY_END) / flipLen, 0, nMax);
     const open = clamp(s, 0, 1) - (single ? 0 : clamp(s - (nMax - 1), 0, 1));
@@ -1164,20 +1174,38 @@ function frame(now) {
     bookFloat.style.transform = `translate3d(${shift.toFixed(1)}px, ${((1 - rv) * 70 + bob).toFixed(1)}px, 0) scale(${(0.84 + 0.16 * rv).toFixed(4)})`;
     shadow.style.transform = `translateX(${shift.toFixed(1)}px) scaleX(${(single ? 1 : 0.5 + 0.5 * open).toFixed(3)})`;
     shadow.style.opacity = (0.6 + 0.4 * rv).toFixed(3);
-    if (s !== lastS) { lastS = s; paintLeaves(s); }
-  }
+    if (s !== lastS || flatPending) { lastS = s; paintLeaves(s, now); }
+    const cv = s < 0.5 || s > nMax - 0.5;
+    if (cv !== lastCv) { lastCv = cv; menu.classList.toggle("cv-on", cv); }
+  } else if (lastCv) { lastCv = false; menu.classList.remove("cv-on"); }
   requestAnimationFrame(frame);
 }
-function paintLeaves(s) {
-  const n = leaves.length, lo = Math.floor(s) - 1, hi = Math.ceil(s) + 1;
+/* Only the pages that can be seen are shown: the one turning, the one under it and, on a spread, the one on the left.
+   Pages lying still are drawn flat; only a page mid-turn is 3D. A fast flick or a jump lays every page flat until it slows down,
+   because turning dozens of 3D pages a second is what ran phones out of memory. */
+let fastUntil = 0, prevS = -1, prevT = 0, flatPending = false;
+function setFlat(L, f) {
+  if (f === L.flat) return; L.flat = f;
+  L.el.classList.toggle("flat", !!f); L.el.classList.toggle("up", f === "up"); L.el.classList.toggle("down", f === "down");
+}
+function paintLeaves(s, now = performance.now()) {
+  const dt = Math.max(0.008, (now - prevT) / 1000);
+  if (prevS >= 0 && Math.abs(s - prevS) / dt > 10) fastUntil = now + 160;   // more than 10 pages a second
+  prevS = s; prevT = now;
+  const fast = flatPending = now < fastUntil;
+  const v = fast ? Math.round(s) : s, fl = Math.floor(v), turning = v > fl, n = leaves.length;
   leaves.forEach((L, i) => {
-    if (!L.near && i >= lo - 1 && i <= hi + 1) { L.near = true; wakePhotos(L.el); }
-    const vis = i >= lo && i <= hi;
-    if (vis !== L.vis) { L.vis = vis; L.el.style.visibility = vis ? "visible" : "hidden"; }
-    if (!vis) return;
-    const p = ease(clamp(s - i, 0, 1));
-    if (p === L.p) return; L.p = p;
-    L.el.style.transform = `perspective(${persp.toFixed(0)}px) rotateY(${(-180 * p).toFixed(2)}deg)`;
+    if (!L.near && i >= fl - 2 && i <= fl + 3) { L.near = true; wakePhotos(L.el); }
+    const p = ease(clamp(v - i, 0, 1));
+    const vis = single ? (i === fl ? p < 0.72 : i === fl + 1 && turning) : i === fl - 1 || i === fl || (i === fl + 1 && turning);
+    if (vis !== L.vis) {
+      L.vis = vis; L.el.style.visibility = vis ? "visible" : "hidden";
+      if (!vis) { setFlat(L, "up"); L.el.style.transform = ""; L.p = -1; }
+    }
+    if (!vis || p === L.p) return; L.p = p;
+    const f = p === 0 ? "up" : p === 1 ? "down" : "";
+    setFlat(L, f);
+    L.el.style.transform = f === "up" ? "" : f === "down" ? "scaleX(-1)" : `perspective(${persp.toFixed(0)}px) rotateY(${(-180 * p).toFixed(2)}deg)`;
     L.el.style.zIndex = single ? n - i : p < 0.5 ? 2 * n - i : i + 1;
     const sh = (Math.sin(p * Math.PI) * 0.5).toFixed(3);
     L.shades.forEach(e => (e.style.opacity = sh));
@@ -1415,6 +1443,8 @@ if ("IntersectionObserver" in window && !reduce) {
 
 /* bunting under the awning, swaying in the breeze */
 const FLAG_COLS = ["#a3d3bf", "#f1a593", "#e2b55e", "#fffaf0", "#2f7a55", "#c4b0e4"];
+if ("IntersectionObserver" in window) new IntersectionObserver(es => bunting.classList.toggle("live", es[0].isIntersecting)).observe(bunting);
+else bunting.classList.add("live");
 function layBunting() {
   const W = bunting.clientWidth; if (!W) return;
   const n = Math.max(6, Math.floor(W / 44)), sag = Math.min(34, W * 0.03);
@@ -1600,7 +1630,9 @@ function teamTick(now) {
     c.rx += (c.trx - c.rx) * f; c.ry += (c.try - c.ry) * f; c.hov += (c.thov - c.hov) * f;
     c.fv += (((c.flipped ? 180 : 0) - c.f) * 110 - c.fv * 13) * dt; c.f += c.fv * dt;
     c.swing.style.transform = `rotate(${c.th.toFixed(4)}rad)`;
-    c.flip.style.transform = `rotateX(${c.rx.toFixed(2)}deg) rotateY(${(c.f + c.ry - c.th * 28).toFixed(2)}deg)`;
+    const ay = c.f + c.ry - c.th * 28, a = ((ay % 360) + 360) % 360, back = a > 90 && a < 270;
+    c.flip.style.transform = `rotateX(${c.rx.toFixed(2)}deg) rotateY(${ay.toFixed(2)}deg)`;
+    if (back !== c.sb) { c.sb = back; c.front.style.visibility = back ? "hidden" : ""; c.back.style.visibility = back ? "" : "hidden"; }   // the side facing away is not kept in graphics memory
     const s = c.card.style;
     s.setProperty("--hx", (50 + c.ry * 2.4 - c.th * 160 + (reduce ? 0 : Math.sin(t * 0.6 + c.ph) * 8)).toFixed(1) + "%");
     s.setProperty("--hy", (50 - c.rx * 2.6).toFixed(1) + "%");
