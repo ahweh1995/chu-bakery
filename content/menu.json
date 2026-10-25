@@ -1,0 +1,301 @@
+{
+  "items": [
+    {
+      "category": "mini",
+      "name": "芋头蛋糕",
+      "name_en": "Yam Cake",
+      "description": "槟榔芋泥，绵密香浓。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "综合水果蛋糕",
+      "name_en": "Mixed Fruit Cake",
+      "description": "当季鲜果配轻奶油。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "草莓奶油蛋糕",
+      "name_en": "Strawberry Cream Cake",
+      "description": "新鲜草莓，奶油轻盈。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "芒果蛋糕",
+      "name_en": "Mango Cake",
+      "description": "熟芒果肉，酸甜清爽。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "斑兰椰丝蛋糕",
+      "name_en": "Pandan Coconut Cake",
+      "description": "新鲜斑兰叶汁，椰丝香。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "抹茶红豆蛋糕",
+      "name_en": "Matcha Red Bean Cake",
+      "description": "抹茶微苦，配蜜红豆。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "巧克力蛋糕",
+      "name_en": "Chocolate Cake",
+      "description": "黑巧克力，不甜腻。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "伯爵茶蛋糕",
+      "name_en": "Earl Grey Cake",
+      "description": "伯爵茶香，淡淡柑橘。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "榴莲蛋糕",
+      "name_en": "Durian Cake",
+      "description": "榴莲果肉，浓郁顺滑。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "mini",
+      "name": "百香果蛋糕",
+      "name_en": "Passion Fruit Cake",
+      "description": "酸甜百香果，夏天的味道。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "水果挞",
+      "name_en": "Fruit Tart",
+      "description": "酥挞皮，卡仕达配鲜果。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "柠檬挞",
+      "name_en": "Lemon Tart",
+      "description": "柠檬凝乳，酸香清新。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "巧克力挞",
+      "name_en": "Chocolate Tart",
+      "description": "浓郁甘纳许。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "芝士挞",
+      "name_en": "Cheese Tart",
+      "description": "半熟芝士，入口即化。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "蓝莓挞",
+      "name_en": "Blueberry Tart",
+      "description": "满满新鲜蓝莓。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "草莓挞",
+      "name_en": "Strawberry Tart",
+      "description": "草莓配香草卡仕达。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "抹茶挞",
+      "name_en": "Matcha Tart",
+      "description": "抹茶甘纳许，微苦回甘。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "焦糖坚果挞",
+      "name_en": "Caramel Nut Tart",
+      "description": "焦糖配烤坚果。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "芒果挞",
+      "name_en": "Mango Tart",
+      "description": "芒果果肉，香甜多汁。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "tart",
+      "name": "椰子挞",
+      "name_en": "Coconut Tart",
+      "description": "椰丝椰奶，古早味。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "chiffon",
+      "name": "原味戚风",
+      "name_en": "Classic Chiffon",
+      "description": "鸡蛋香，像云一样轻。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "chiffon",
+      "name": "斑兰戚风",
+      "name_en": "Pandan Chiffon",
+      "description": "新鲜斑兰叶，清香。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "chiffon",
+      "name": "伯爵茶戚风",
+      "name_en": "Earl Grey Chiffon",
+      "description": "茶香淡雅，不甜腻。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "chiffon",
+      "name": "芋头戚风",
+      "name_en": "Yam Chiffon",
+      "description": "芋香松软。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "nobake",
+      "name": "原味乳酪蛋糕",
+      "name_en": "Classic Cheesecake",
+      "description": "免烤，冰凉顺滑。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "nobake",
+      "name": "草莓乳酪蛋糕",
+      "name_en": "Strawberry Cheesecake",
+      "description": "草莓果酱，酸甜。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "nobake",
+      "name": "芒果乳酪蛋糕",
+      "name_en": "Mango Cheesecake",
+      "description": "芒果果泥，清爽。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "nobake",
+      "name": "蓝莓乳酪蛋糕",
+      "name_en": "Blueberry Cheesecake",
+      "description": "蓝莓果酱，微酸。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "basque",
+      "name": "原味巴斯克",
+      "name_en": "Classic Basque",
+      "description": "焦香外层，流心内里。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "basque",
+      "name": "抹茶巴斯克",
+      "name_en": "Matcha Basque",
+      "description": "抹茶浓郁。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "basque",
+      "name": "巧克力巴斯克",
+      "name_en": "Chocolate Basque",
+      "description": "可可浓香。",
+      "price": "",
+      "note": "",
+      "photo": ""
+    },
+    {
+      "category": "special",
+      "name": "热带水果蛋糕",
+      "name_en": "Tropical Fruit Cake",
+      "description": "满满热带水果。",
+      "price": "",
+      "note": "圣诞限定",
+      "photo": ""
+    },
+    {
+      "category": "special",
+      "name": "柔佛凤梨挞",
+      "name_en": "Johor Pineapple Tarts",
+      "description": "柔佛黄梨果酱，酥香。",
+      "price": "",
+      "note": "新年限定",
+      "photo": ""
+    }
+  ]
+}

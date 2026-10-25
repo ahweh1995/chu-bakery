@@ -1,0 +1,117 @@
+# Website editor (Pages CMS, https://app.pagescms.org). Every Save updates the live site in about a minute.
+media:
+  input: media
+  output: /media
+  categories: [image]
+
+content:
+  - name: menu
+    label: "Menu · 菜单"
+    type: file
+    path: content/menu.json
+    format: json
+    fields:
+      - name: items
+        label: "Cakes and tarts · 蛋糕和挞"
+        description: "The order here is the order in the menu book. 这里的顺序就是菜单里的顺序。"
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name} · {name_en}"
+        fields:
+          - name: category
+            label: "Category · 类别"
+            type: select
+            required: true
+            options:
+              values:
+                - { name: mini, label: "3寸小蛋糕 · 3-inch cakes" }
+                - { name: tart, label: "3寸挞 · 3-inch tarts" }
+                - { name: chiffon, label: "6寸/8寸 戚风蛋糕 · Chiffon" }
+                - { name: nobake, label: "6寸/8寸 无烤箱乳酪蛋糕 · No-bake cheesecake" }
+                - { name: basque, label: "6寸/8寸 巴斯克乳酪蛋糕 · Basque" }
+                - { name: special, label: "限时甜品 · Special" }
+          - { name: name, label: "Chinese name · 中文名", type: string, required: true }
+          - { name: name_en, label: "English name · 英文名", type: string }
+          - { name: description, label: "Short description · 简介", type: text, description: "One short line. 一句话就好。" }
+          - { name: price, label: "Price · 价格", type: string, description: "e.g. RM 12. Leave empty to hide. 留空就不显示。" }
+          - { name: note, label: "Note · 备注", type: string, description: "e.g. 圣诞限定 or 提前 2 天预订." }
+          - name: photo
+            label: "Photo · 照片"
+            type: image
+            description: "Square photos look best. Leave empty to show the drawn sample. 留空会显示示意图。"
+            options: { rename: random }
+
+  - name: gallery
+    label: "Events & dessert tables · 活动与甜品台"
+    type: file
+    path: content/gallery.json
+    format: json
+    fields:
+      - name: items
+        label: "Photos · 照片"
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name} · {name_en}"
+        fields:
+          - name: type
+            label: "Type · 类型"
+            type: select
+            required: true
+            options:
+              values:
+                - { name: table, label: "甜品台 · Dessert table" }
+                - { name: event, label: "活动 · Event" }
+          - { name: name, label: "Name · 活动名称", type: string, required: true }
+          - { name: name_en, label: "English name · 英文名", type: string }
+          - { name: date, label: "Date · 日期", type: string, description: "e.g. Dec 2025" }
+          - { name: place, label: "Place · 地点", type: string }
+          - { name: description, label: "Description · 简介", type: text }
+          - name: photo
+            label: "Photo · 照片"
+            type: image
+            description: "Portrait (tall) photos look best. 竖的照片效果最好。"
+            options: { rename: random }
+
+  - name: team
+    label: "Team · 团队"
+    type: file
+    path: content/team.json
+    format: json
+    fields:
+      - name: members
+        label: "Team badges · 工牌"
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - { name: name, label: "Name · 名字", type: string, required: true }
+          - { name: role, label: "Role · 职位", type: string }
+          - { name: role_en, label: "Role in English · 英文职位", type: string }
+          - { name: location, label: "Location · 地点", type: string }
+          - { name: story, label: "Story · 介绍", type: text, description: "Shown on the back of the badge. 显示在工牌背面。" }
+          - { name: list_title, label: "List title · 小标题", type: string, description: "e.g. 拿手 · Signature bakes" }
+          - { name: list, label: "List · 列表", type: string, list: true }
+          - { name: instagram, label: "Personal Instagram link · 个人 Instagram", type: string, description: "Leave empty to use the shop's Instagram. 留空就用店的 Instagram。" }
+          - { name: show_whatsapp, label: "Show WhatsApp button · 显示 WhatsApp 按钮", type: boolean }
+          - name: photo
+            label: "Photo · 照片"
+            type: image
+            description: "Leave empty to show the drawn portrait. 留空会显示示意图。"
+            options: { rename: random }
+
+  - name: shop
+    label: "Shop links · 店铺链接"
+    type: file
+    path: content/shop.json
+    format: json
+    fields:
+      - { name: whatsapp_link, label: "WhatsApp link", type: string }
+      - { name: whatsapp_number, label: "WhatsApp number · 号码", type: string, description: "e.g. 60123456789. When filled, WhatsApp opens with the cake name already typed. 填了号码，WhatsApp 会自动带上蛋糕名字。" }
+      - { name: instagram, label: "Instagram link", type: string }
+      - { name: maps, label: "Google Maps link", type: string }

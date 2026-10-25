@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+      "type": "table",
+      "name": "婚礼甜品台",
+      "name_en": "Wedding dessert table",
+      "date": "",
+      "place": "Muar",
+      "description": "白色和粉色的婚礼甜品台。",
+      "photo": ""
+    },
+    {
+      "type": "table",
+      "name": "满月甜品台",
+      "name_en": "Full-month party",
+      "date": "",
+      "place": "Muar",
+      "description": "宝宝满月的小甜品台。",
+      "photo": ""
+    },
+    {
+      "type": "event",
+      "name": "中秋市集",
+      "name_en": "Mid-Autumn market",
+      "date": "",
+      "place": "Muar",
+      "description": "中秋夜市的甜品摊。",
+      "photo": ""
+    },
+    {
+      "type": "table",
+      "name": "生日派对",
+      "name_en": "Birthday party",
+      "date": "",
+      "place": "Muar",
+      "description": "生日派对甜品台。",
+      "photo": ""
+    },
+    {
+      "type": "event",
+      "name": "公司活动",
+      "name_en": "Company event",
+      "date": "",
+      "place": "Johor",
+      "description": "公司活动的下午茶甜点。",
+      "photo": ""
+    },
+    {
+      "type": "event",
+      "name": "圣诞市集",
+      "name_en": "Christmas market",
+      "date": "",
+      "place": "Muar",
+      "description": "圣诞限定蛋糕和饼干。",
+      "photo": ""
+    },
+    {
+      "type": "table",
+      "name": "新年开放门户",
+      "name_en": "CNY open house",
+      "date": "",
+      "place": "Muar",
+      "description": "新年开放门户的甜品台。",
+      "photo": ""
+    },
+    {
+      "type": "table",
+      "name": "母亲节下午茶",
+      "name_en": "Mother's Day tea",
+      "date": "",
+      "place": "Muar",
+      "description": "母亲节下午茶甜品台。",
+      "photo": ""
+    }
+  ]
+}

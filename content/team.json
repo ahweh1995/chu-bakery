@@ -1,0 +1,36 @@
+{
+  "members": [
+    {
+      "name": "Teo Kai Wen",
+      "role": "联合创办人 · 主厨",
+      "role_en": "Co-founder · Head Baker",
+      "location": "Muar, Johor",
+      "story": "负责每一款蛋糕的配方和烘焙。用新鲜水果、香草和蔬菜入味，少糖，不加人工色素和香精。",
+      "list_title": "拿手 · Signature bakes",
+      "list": [
+        "芋头蛋糕",
+        "综合水果蛋糕",
+        "乳酪蛋糕"
+      ],
+      "instagram": "",
+      "show_whatsapp": true,
+      "photo": ""
+    },
+    {
+      "name": "Yvone Oon",
+      "role": "联合创办人 · 销售与市场",
+      "role_en": "Co-founder · Sales & Marketing",
+      "location": "Muar, Johor",
+      "story": "负责订单、活动甜品台和 Instagram，让每一份甜品准时、漂亮地送到客人手上。",
+      "list_title": "负责 · Looks after",
+      "list": [
+        "订单与配送",
+        "活动甜品台",
+        "Instagram"
+      ],
+      "instagram": "",
+      "show_whatsapp": true,
+      "photo": ""
+    }
+  ]
+}

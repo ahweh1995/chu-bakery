@@ -1,0 +1,48 @@
+# Publishes the website to GitHub Pages on every change (including every Save in the website editor).
+# Photos are shrunk to at most 1600 px on the published site; the originals stay in the repository.
+name: Publish website
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Copy the public files
+        run: |
+          mkdir -p _site/media
+          cp index.html og.jpg icon-180.png _site/
+          cp -r content _site/
+          if [ -d media ]; then cp -r media/. _site/media/; fi
+          rm -f _site/media/.gitkeep
+          sed -i "s#__SITE_URL__#${{ steps.pages.outputs.base_url }}#g" _site/index.html
+      - name: Shrink photos for phones
+        run: |
+          if find _site/media -type f | grep -qiE '\.(jpe?g|png|webp)$'; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick > /dev/null
+            find _site/media -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) -print0 \
+              | xargs -0 -r mogrify -auto-orient -resize '1600x1600>' -strip -quality 82
+          fi
+          du -sh _site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
